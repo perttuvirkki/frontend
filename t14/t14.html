@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>React getting started</title>
+  </head>
+  <body>
+    <!-- Root container for react components -->
+    <div id="root"></div>
+
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script type="text/babel">
+
+     
+      const GetRepos = () => {
+
+        const [repos, setRepos] = React.useState([]);
+        const [search, setSearch] = React.useState('');
+        const [showresults, setShowresults] = React.useState(false);
+        const [url, setUrl] = React.useState("");
+
+        React.useEffect(() => {
+          fetch(url)
+          .then(response => response.json())
+          .then(responseData => {
+            setRepos(responseData.items)
+          })
+        }, [url])
+
+        const SearchResults = () => {
+        
+          return ( 
+            <div>
+              <h1>List</h1>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>URL</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    repos.map((repo, index) =>
+                    
+                    <tr key={index}>
+                    <td>{repo.full_name}</td>
+                    <td><a href={repo.owner.html_url}>{repo.owner.html_url}</a></td>
+                    </tr>
+                    )
+                  }
+
+                </tbody>
+              </table>
+            </div>
+          );
+        }
+
+        const inputChanged = (event) => {
+          setSearch(event.target.value)                    
+        }
+
+        const showInfo = () => {
+          event.preventDefault();
+          setUrl(`https://api.github.com/search/repositories?q=${search}`)
+          setShowresults(true)
+        }
+
+        return (
+          <div>
+            <h1>Repos</h1>
+            <form onSubmit={showInfo}>
+            <input type="text" value={search} onChange={inputChanged} />
+            <input type="submit" value="Show" />
+            </form>
+            { showresults ? <SearchResults /> : null }
+          </div>
+        )
+      };
+
+      ReactDOM.render(<GetRepos />, document.getElementById("root"));
+    </script>
+  </body>
+</html>

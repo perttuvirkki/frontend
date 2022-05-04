@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>React getting started</title>
+  </head>
+  <body>
+    <!-- Root container for react components -->
+    <div id="root"></div>
+
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script type="text/babel">
+
+     
+      function GetQuote() {
+
+        const [temp, setTemp] = React.useState('');
+        const [weather, setWeather] = React.useState('');
+        const [icon, setIcon] = React.useState('');
+        const [city, setCity] = React.useState('');
+        const [newcity, setNewcity] = React.useState('');
+        const [showResults, setShowresults] = React.useState(false);
+        const [showcity, setShowcity] = React.useState('');
+
+        const inputChanged = (event) => {
+          setNewcity(event.target.value)
+        }
+
+        React.useEffect(() => {
+            fetch(city)
+          .then(response => response.json())
+          .then(data => {
+            setTemp((data.main.temp-273).toFixed(2));
+            setWeather(data.weather[0].main);
+            setIcon('https://openweathermap.org/img/wn/'+data.weather[0].icon+'.png')
+            setShowcity(data.name);
+          })
+          .catch(err => {
+            console.log(err);
+          })
+        }, [city])
+
+        const WeatherInfo = () => {
+          return (
+            <div>
+              <p style={{fontWeight: "bold"}}>Showing {showcity} weather</p>
+              <p>Temperature: {temp} celcius</p>
+              <p>Weather: {weather}</p>
+              <img src={icon} />
+            </div>
+          )
+        }
+
+        const showInfo = () => {
+          setCity('https://api.openweathermap.org/data/2.5/weather?q='+newcity+'&APPID=4864b24bf8e46bf65d066e10270c645f');
+          setShowresults(true);
+        }
+        
+        return (
+          <div>
+            <input type="text" name="newcity" value={newcity} onChange={inputChanged} />
+            <button onClick={() => showInfo()}>setcity</button>
+            { showResults ? <WeatherInfo /> : null }
+          </div>
+        );
+      };
+
+      ReactDOM.render(<GetQuote />, document.getElementById("root"));
+    </script>
+  </body>
+</html>

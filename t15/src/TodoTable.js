@@ -1,5 +1,4 @@
 import React from "react";
-import TodoList from "./TodoList";
 
 export default function TodoTable(props) {
   return (
@@ -14,6 +13,15 @@ export default function TodoTable(props) {
             <tr key={index}>
               <td>{todo.date}</td>
               <td>{todo.desc}</td>
+              <td>
+                <input
+                  type="button"
+                  value="delete"
+                  onClick={() =>
+                    props.setTodos(props.todos.filter((todo, i) => i !== index))
+                  }
+                ></input>
+              </td>
             </tr>
           ))}
         </tbody>

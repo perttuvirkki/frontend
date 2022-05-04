@@ -32,7 +32,7 @@ function TodoList() {
         />
         <input type="submit" value="Add" />
       </form>
-      <TodoTable todos={todos} />
+      <TodoTable todos={todos} setTodos={setTodos} />
     </div>
   );
 }

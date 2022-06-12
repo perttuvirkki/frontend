@@ -2,12 +2,23 @@ import React, { useState, useMemo, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
 import dayjs from "dayjs";
 import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
 
 export default function Training() {
   const [open, setOpen] = useState(false);
 
+  const action = <React.Fragment></React.Fragment>;
+
   const handleClick = () => {
     setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -61,11 +72,21 @@ export default function Training() {
 
   const defaultColDef = useMemo(() => ({ sortable: true, filter: true }), []);
   return (
-    <div className="ag-theme-alpine" style={{ height: 500 }}>
+    <div
+      className="ag-theme-alpine"
+      style={{ height: 500, width: "80%", margin: "auto" }}
+    >
       <AgGridReact
         rowData={rowData}
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}
+      />
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={"Training deleted"}
+        action={action}
       />
     </div>
   );

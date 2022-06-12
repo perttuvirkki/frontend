@@ -16,21 +16,22 @@ export default function Calendar() {
   };
 
   return (
-    <Scheduler
-      height="500"
-      view="month"
-      month={{
-        weekDays: [0, 1, 2, 3, 4, 5, 6],
-        weekStartOn: 6,
-        startHour: 9,
-        endHour: 17,
-      }}
-      events={events.map((events, i) => ({
-        event_id: i,
-        title: events.activity,
-        start: new Date(events.date),
-        end: moment(events.date).add(events.duration, "minute")._d,
-      }))}
-    />
+    <div style={{ height: 500, width: "80%", margin: "auto" }}>
+      <Scheduler
+        view="month"
+        month={{
+          weekDays: [0, 1, 2, 3, 4, 5, 6],
+          weekStartOn: 6,
+          startHour: 9,
+          endHour: 17,
+        }}
+        events={events.map((events, i) => ({
+          event_id: i,
+          title: events.activity,
+          start: new Date(events.date),
+          end: moment(events.date).add(events.duration, "minute")._d,
+        }))}
+      />
+    </div>
   );
 }

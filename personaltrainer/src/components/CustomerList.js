@@ -135,7 +135,10 @@ export default function CustomerList(props) {
 
   const defaultColDef = useMemo(() => ({ sortable: true, filter: true }), []);
   return (
-    <div className="ag-theme-alpine" style={{ height: 500 }}>
+    <div
+      className="ag-theme-alpine"
+      style={{ height: 500, width: "80%", margin: "auto" }}
+    >
       <AddCustomer saveCustomer={saveCustomer} />
 
       <AgGridReact
